@@ -26,7 +26,15 @@ struct SidebarView: View {
                     HStack{
                         Image(systemName: "folder")
                         TextField("New Group", text: $group.title)
-                    }.tag(TaskSection.list(group))
+                    }
+                    .tag(TaskSection.list(group))
+                    .contextMenu {
+                        Button("Delete", role: .destructive) {
+                            if let index = userCreatedGroups.firstIndex(where: { $0.id == group.id}) {
+                                userCreatedGroups.remove(at: index)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -41,6 +49,7 @@ struct SidebarView: View {
             .foregroundColor(.accentColor)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+            .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
         }
     }
 }
